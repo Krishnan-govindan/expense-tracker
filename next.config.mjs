@@ -2,6 +2,7 @@
 const nextConfig = {
   output: 'export',
   basePath: '/expense-tracker',
+  distDir: 'out',
   images: {
     unoptimized: true,
   },
