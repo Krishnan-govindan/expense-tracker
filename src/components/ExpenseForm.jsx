@@ -1,11 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Calendar as CalendarIcon } from 'lucide-react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import { useLocalStorage } from '@/lib/supabase';
 
 export default function ExpenseForm({ onExpenseAdded }) {
   const [loading, setLoading] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [formData, setFormData] = useState({
     description: '',
     amount: '',
@@ -129,14 +132,40 @@ export default function ExpenseForm({ onExpenseAdded }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Date
           </label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-          />
+          <div className="relative">
+            <div className="flex gap-2">
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowCalendar(!showCalendar)}
+                className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition flex items-center gap-2"
+              >
+                <CalendarIcon size={20} />
+              </button>
+            </div>
+            {showCalendar && (
+              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg p-3 z-10">
+                <Calendar
+                  value={new Date(formData.date)}
+                  onChange={(date) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      date: date.toISOString().split('T')[0]
+                    }));
+                    setShowCalendar(false);
+                  }}
+                  className="border-0"
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="md:col-span-2">
