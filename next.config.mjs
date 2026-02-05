@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/expense-tracker',
+  basePath: process.env.NODE_ENV === 'production' ? '/expense-tracker' : '',
   distDir: 'out',
   images: {
     unoptimized: true,
