@@ -1,8 +1,3 @@
--- Supabase Setup Script for Expense Tracker
--- This file contains all SQL commands to set up your database
--- Run this in Supabase SQL Editor: Settings > SQL Editor > New Query
-
--- Create expenses table
 CREATE TABLE IF NOT EXISTS expenses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   description VARCHAR(255) NOT NULL,
